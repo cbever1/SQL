@@ -1,0 +1,28 @@
+--Create music store
+CREATE TABLE music_store (id INTEGER, name TEXT, category TEXT, quantity INTEGER, price INTEGER, aisle INTEGER);
+
+
+INSERT INTO music_store VALUES (1,"Les Paul","Electric" , 10, 500, 1);
+INSERT INTO music_store VALUES (2, "SG", "Electric", 20, 350, 1);
+INSERT INTO music_store VALUES (3, "Flying V", "Electric", 5, 375, 1);
+INSERT INTO music_store VALUES (4, "Telecaster", "Electric", 6, 550, 2);
+INSERT INTO music_store VALUES (5, "Stratacaster", "Electric", 7, 450, 2);
+INSERT INTO music_store VALUES (6, "PRS", "Electric", 1, 1000, 3);
+INSERT INTO music_store VALUES (7, "314ce", "Acoustic", 2, 800, 4);
+INSERT INTO music_store VALUES (8, "McP.", "Acoustic", 1, 900, 5);
+INSERT INTO music_store VALUES (9, "Line6 Helix", "Pedal", 2, 500, 6);
+INSERT INTO music_store VALUES (10, "Line6 Helix Lite", "Pedal", 2, 400, 6);
+INSERT INTO music_store VALUES (11, "Elixer Acoustic", "Strings", 5, 10, 7);
+INSERT INTO music_store VALUES (12, "Elixer Electric", "Strings", 5, 10, 7);
+INSERT INTO music_store VALUES (13, "Capo", "Accessories", 5, 5, 9);
+INSERT INTO music_store VALUES (14, "X32 Mixer", "Mixers", 3, 3000, 8);
+INSERT INTO music_store VALUES (15, "Wing", "Mixers", 2, 4000, 8);
+
+--Music store list by price
+SELECT * FROM music_store 
+ORDER BY price;
+
+--Music store inventory quantities by style and average price of category
+SELECT category, SUM(quantity) as in_inventory, AVG(price) as avg_price 
+FROM music_store
+GROUP BY category;
