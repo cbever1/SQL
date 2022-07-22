@@ -1,0 +1,92 @@
+--Create relational tables
+CREATE TABLE mcu_actors (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    fullname TEXT,
+    birthplace TEXT,
+    role TEXT);
+    
+INSERT INTO mcu_actors (fullname, birthplace, role)
+    VALUES ("Robert Downey Jr.", "USA", "Iron Man");
+    
+INSERT INTO mcu_actors (fullname, birthplace, role)
+    VALUES ("Gweneth Paltrow", "USA", "Pepper Pots");
+    
+INSERT INTO mcu_actors (fullname, birthplace, role)
+    VALUES ("Samuel L. Jackson", "USA", "Nick Fury");
+    
+INSERT INTO mcu_actors (fullname, birthplace, role)
+    VALUES ("Cobie Smulders", "USA", "Maria Hill");
+    
+INSERT INTO mcu_actors (fullname, birthplace, role)
+    VALUES ("Chris Evans", "USA", "Captain America");
+
+INSERT INTO mcu_actors (fullname, birthplace, role)
+    VALUES ("Mark Ruffalo", "USA", "Hulk");
+    
+INSERT INTO mcu_actors (fullname, birthplace, role)
+    VALUES ("Chris Hemsworth", "Australia", "Thor");
+    
+INSERT INTO mcu_actors (fullname, birthplace, role)
+    VALUES ("Jeremy Renner", "USA", "Hawkeye");
+
+INSERT INTO mcu_actors (fullname, birthplace, role)
+    VALUES ("Scarlett Johannsen", "USA", "Black Widow");
+    
+INSERT INTO mcu_actors (fullname, birthplace, role)
+    VALUES ("Elizabeth Olsen", "USA", "Scarlett Witch");
+    
+INSERT INTO mcu_actors (fullname, birthplace, role)
+    VALUES ("Benedict Cumberbatch", "England", "Doctor Strange");
+    
+INSERT INTO mcu_actors (fullname, birthplace, role)
+    VALUES ("Tom Holland", "England", "Spiderman");
+ 
+ INSERT INTO mcu_actors (fullname, birthplace, role)
+    VALUES ("Natalie Portman", "Israel", "Jane Foster");
+ 
+ INSERT INTO mcu_actors (fullname, birthplace, role)
+    VALUES ("Haylee Atwell", "England", "Peggy Carter");
+ 
+ INSERT INTO mcu_actors (fullname, birthplace, role)
+    VALUES ("Chris Pratt", "USA", "Peter Quill");
+
+ SELECT * FROM mcu_actors;
+ 
+
+CREATE TABLE mcu_movies (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    title TEXT,
+    release_date TEXT,
+    main_char1 INTEGER,
+    main_char2 INTEGER,
+    runtime INTEGER);
+
+INSERT INTO mcu_movies (title, release_date, main_char1, main_char2, runtime)
+    VALUES ("Iron Man", "2008", 1, 2, 126);
+    
+INSERT INTO mcu_movies (title, release_date, main_char1, runtime )
+    VALUES ("The Incredible Hulk", "2009", 6, 112);
+    
+INSERT INTO mcu_movies (title, release_date, main_char1, main_char2, runtime)
+    VALUES ("Iron Man 2", "2010", 1, 2, 124);
+
+INSERT INTO mcu_movies (title, release_date, main_char1, main_char2, runtime)
+    VALUES ("Thor", "2010", 7, 13, 115);
+    
+INSERT INTO mcu_movies (title, release_date, main_char1, main_char2, runtime)
+    VALUES ("Captain America: The First Avenger", "2011", 5, 14, 124);
+
+INSERT INTO mcu_movies (title, release_date, main_char1, main_char2, runtime)
+    VALUES ("Avengers", "2012", 1, 5, 143);
+    
+
+--Movies and stars with multiple joins
+SELECT title, a.fullname AS star, b.fullname AS costar, release_date, runtime FROM mcu_movies
+    JOIN mcu_actors a
+    ON mcu_movies.main_char1 = a.id
+    LEFT OUTER JOIN mcu_actors b
+    ON mcu_movies.main_char2 = b.id;
+
+
+--Total runtime    
+SELECT COUNT(id) AS total_movies,  SUM(runtime) AS total_runtime FROM mcu_movies;
