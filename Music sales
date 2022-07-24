@@ -1,0 +1,100 @@
+#Just a few different queries from "chinook" database 
+
+--Non-US Customers
+SELECT CustomerID, FirstName, LastName, Country FROM customers
+WHERE country != "USA";
+
+--Brazilian Customers Only
+SELECT CustomerID, FirstName, LastName, Country FROM customers
+WHERE Country = "Brazil";
+
+--Brazilian invoices
+SELECT i.InvoiceID, c.Firstname, c.Lastname, i.InvoiceDate, i.BillingCountry
+FROM invoices i
+JOIN customers c
+ON i.Customerid = c.Customerid
+WHERE i.BillingCountry = "Brazil";
+
+--Employess that are sales support agents
+SELECT Firstname, Lastname, Title FROM employees
+WHERE Title LIKE "%Agent%";
+
+--Unique Billing Countries
+SELECT DISTINCT BillingCountry FROM invoices;
+
+--Sales Reps associated with invoices over multiple joins
+SELECT i.invoiceid, e.Firstname, e.Lastname 
+FROM invoices i
+JOIN customers c
+ON i.customerid = c.customerid
+JOIN employees e
+ON c.SupportRepid = e.Employeeid;
+
+--Show the Invoice Total, Customer name, Country, and Sales Agent name for all invoices and customers
+SELECT i.Total, c.Firstname, c.Lastname, c.Country, e.Firstname, e.Lastname 
+FROM invoices i
+JOIN customers c
+ON i.Customerid = c.Customerid
+JOIN employees e
+ON c.SupportRepid = e.Employeeid;
+
+
+--How many Invoices were there in 2009?
+SELECT COUNT(Invoiceid) FROM invoices
+WHERE InvoiceDate LIKE "2009%";
+
+--What are the total sales for 2009?
+SELECT SUM(total) as total FROM invoices
+WHERE InvoiceDate LIKE "2009%";
+
+-- The purchased track name with each invoice line item.
+SELECT InvoiceLineID, InvoiceId, Name, UnitPrice, Quantity FROM invoice_items i
+JOIN tracks t
+ON i.TrackId = t.TrackId;
+
+--A query that includes the purchased track name AND artist name with each invoice line item.
+SELECT InvoiceLineID, InvoiceId, t.Name, a2.Name UnitPrice, Quantity FROM invoice_items i
+JOIN tracks t
+ON i.TrackId = t.TrackId
+JOIN albums a
+ON t.AlbumId = a. AlbumId
+JOIN artists a2
+ON a.ArtistId = a2.ArtistId;
+
+
+--A query that shows all the Tracks, and include the Album name, Media type, and Genre.
+SELECT t.Name as Track, a.Title as Album, mt.Name, g.Name FROM tracks t
+JOIN albums a
+ON t.AlbumId = a.AlbumId
+JOIN media_types mt
+ON t.MediaTypeId = mt.MediaTypeId
+JOIN genres g
+ON t.GenreId = g.GenreId;
+
+--Total sales made by each sales agent.
+SELECT SUM(total), e.FirstName, E.LastName, e.Title FROM invoices i
+JOIN customers c
+ON i.customerId = c.CustomerId
+JOIN employees e
+ON c.SupportRepId = e.EmployeeId
+WHERE e.Title = "Sales Support Agent"
+GROUP BY e.EmployeeId;
+
+--Which sales agent made the most in sales in 2009?
+SELECT SUM(total) as Total, e.FirstName, E.LastName, e.Title FROM invoices i
+JOIN customers c
+ON i.customerId = c.CustomerId
+JOIN employees e
+ON c.SupportRepId = e.EmployeeId
+WHERE e.Title = "Sales Support Agent" AND i.InvoiceDate LIKE "2009%"
+GROUP BY e.EmployeeId
+ORDER BY Total DESC
+LIMIT 1;
+
+
+--How many albums different artists have
+SELECT art.Name, COUNT(a.AlbumId) FROM Albums a
+JOIN artists art
+ON a.ArtistId = art.ArtistId
+GROUP BY a.ArtistId;
+
