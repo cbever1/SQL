@@ -133,3 +133,18 @@ JOIN sales s1
 ON s.id = s1.id
 Where s.product = "Chair" AND s.country = "United states"
 GROUP BY s.product;
+
+--Most popular payment type and average amount purchased with that type
+SELECT COUNT(s1.id) as total_sold, AVG(s.price) as avg_price, s.payment_type
+FROM sales s
+JOIN sales s1
+ON s.id = s1.id
+GROUP BY s.payment_type
+ORDER BY total_sold DESC;
+
+
+
+
+
+
+
